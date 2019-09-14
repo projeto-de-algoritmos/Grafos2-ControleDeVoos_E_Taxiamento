@@ -17,9 +17,8 @@ Adicione 3 ou mais screenshots do projeto em funcionamento.
 
 ## Instalação 
 **Linguagem**: Python 3<br>
-**Framework**: (caso exista)<br>
 
-``` python3
+``` console
 $ pip3 install matplotlib
 
 $ pip3 install pandas
