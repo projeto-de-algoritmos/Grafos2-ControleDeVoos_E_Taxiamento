@@ -1,4 +1,3 @@
-from pqdict import PQDict
 from collections import defaultdict 
 
 def get_posicoes():

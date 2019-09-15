@@ -1,7 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import os
-import scipy as sp
 from funcoesTaxiway import *
 
 
