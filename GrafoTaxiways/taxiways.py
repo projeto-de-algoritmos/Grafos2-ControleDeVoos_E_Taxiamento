@@ -1,5 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import os
+import scipy as sp
 from funcoesTaxiway import *
 
 
@@ -34,15 +36,15 @@ G.add_node('T-HANGAR', label = 'T-HANGAR', color = 'black')
 
 
 G.add_edge('31L-ECHO','31L-KILO-GOLF', weight = 2000 , label = '', color = 'black', width = 19)
-G.add_edge('31L-KILO-GOLF','31L-DELTA', weight = 1000 , label = '', color = 'black', width = 19)
-G.add_edge('31L-DELTA','31L-ECHO2', weight = 400 , label = '31L', color = 'black', width = 19)
-G.add_edge('31L-ECHO2','31L-ALPHA', weight =  3000, label = '', color = 'black', width = 19)
-G.add_edge('31L-ALPHA','31L-BRAVO-HOTEL', weight = 1000 , label = '', color = 'black', width = 19)
-G.add_edge('35-BRAVO','35-FOXTROT', weight = 1000 , label = '', color = 'black', width = 19)
-G.add_edge('35-FOXTROT','35-DELTA', weight = 1000 , label = '', color = 'black', width = 19)
-G.add_edge('35-DELTA','35-ALPHA', weight = 3000 , label = '35', color = 'black', width = 19)
-G.add_edge('35-ALPHA','35-HOTEL', weight = 500 , label = '', color = 'black', width = 19)
-G.add_edge('35-HOTEL','35-BRAVO2', weight = 500 , label = '', color = 'black', width = 19)
+G.add_edge('31L-KILO-GOLF','31L-DELTA', weight = 2000 , label = '', color = 'black', width = 19)
+G.add_edge('31L-DELTA','31L-ECHO2', weight = 2000 , label = '31L', color = 'black', width = 19)
+G.add_edge('31L-ECHO2','31L-ALPHA', weight =  2000, label = '', color = 'black', width = 19)
+G.add_edge('31L-ALPHA','31L-BRAVO-HOTEL', weight = 2000 , label = '', color = 'black', width = 19)
+G.add_edge('35-BRAVO','35-FOXTROT', weight = 2000 , label = '', color = 'black', width = 19)
+G.add_edge('35-FOXTROT','35-DELTA', weight = 2000 , label = '', color = 'black', width = 19)
+G.add_edge('35-DELTA','35-ALPHA', weight = 2000 , label = '35', color = 'black', width = 19)
+G.add_edge('35-ALPHA','35-HOTEL', weight = 2000 , label = '', color = 'black', width = 19)
+G.add_edge('35-HOTEL','35-BRAVO2', weight = 2000 , label = '', color = 'black', width = 19)
 G.add_edge('35-BRAVO','BRAVO-FOXTROT', weight = 1000 , label = 'BRAVO', color = 'gray', width = 7)
 G.add_edge('BRAVO-FOXTROT','BRAVO-DELTA', weight = 1000 , label = 'BRAVO', color = 'gray', width = 7)
 G.add_edge('BRAVO-DELTA','TERMINAL PASSAGEIROS', weight = 500 , label = 'BRAVO', color = 'gray', width = 7)
@@ -62,7 +64,7 @@ G.add_edge('ECHO-DELTA','35-DELTA', weight = 1000 , label = 'DELTA', color = 'gr
 G.add_edge('ECHO-DELTA','31L-DELTA', weight = 300 , label = 'DELTA', color = 'gray', width = 7)
 G.add_edge('35-ALPHA','31L-ALPHA', weight = 50 , label = '', color = 'gray', width = 7)
 G.add_edge('31L-KILO-GOLF','GOLF-DELTA', weight = 500 , label = 'GOLF', color = 'gray', width = 7)
-G.add_edge('GOLF-DELTA','GOLF-ALPHA', weight = 3000 , label = 'GOLF', color = 'gray', width = 7)
+G.add_edge('GOLF-DELTA','GOLF-ALPHA', weight = 1800 , label = 'GOLF', color = 'gray', width = 7)
 G.add_edge('GOLF-ALPHA','GOLF-HOTEL', weight = 500 , label = 'GOLF', color = 'gray', width = 7)
 G.add_edge('GOLF-HOTEL','TERMINAL FRETE', weight = 300 , label = 'GOLF', color = 'gray', width = 7)
 G.add_edge('GOLF-DELTA','31L-DELTA', weight = 250 , label = 'DELTA', color = 'gray', width = 7)
@@ -98,13 +100,38 @@ for key, value in dictLarguraAresta.items():
 
 pos = get_posicoes()
 
-fig1 = plt.figure('Taxiways')
-nx.draw(G, pos, labels = dictLabelNo, node_color = listaCorNo,\
-    edge_color = listaCorAresta, width = listaLarguraAresta, font_size = 6, font_color='white')
+while True:
+    os.system("clear")
+    opcao = exibir_menu_principal()
+    if opcao == 1:
+        fig1 = plt.figure('Diagrama do Aeroporto')
+        nx.draw(G, pos, labels = dictLabelNo, node_color = listaCorNo,\
+            edge_color = listaCorAresta, width = listaLarguraAresta, font_size = 6, font_color='white')
 
-nx.draw_networkx_edge_labels(G, pos,edge_labels = dictLabelAresta, font_size = 6)
+        nx.draw_networkx_edge_labels(G, pos,edge_labels = dictLabelAresta, font_size = 6)
 
-fig1.set_facecolor("#4682B4")
+        fig1.set_facecolor("#4682B4")
 
-plt.axis('off')
-plt.show()
+        plt.axis('off')
+        plt.show()
+    elif opcao == 2:
+        os.system("clear")
+        origem, destino = captura_dados_menor_caminho()
+        A = nx.to_dict_of_dicts(G)
+        caminho, caminhoLegivel, distancia = dijkstra(G, origem, destino)
+        print('\n\n\nMenor Caminho com Menor Custo (MCMC) - Dijkstra')
+        print(caminhoLegivel)
+        print('\n\n\nCusto total considerando as distâncias entre pontos')
+        print(distancia)
+        print("\n\n")
+        fig2 = plt.figure('Menor Caminho com Menor Custo (MCMC) - Dijkstra')
+        nx.draw(G, pos, nodelist=caminho, with_labels=True)
+        # fig2.set_facecolor("#00000F")
+        plt.show()
+    else:
+        os.system("clear")
+        print('Programa Encerrado!')
+        break
+
+
+
