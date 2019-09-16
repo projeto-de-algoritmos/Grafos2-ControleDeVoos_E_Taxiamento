@@ -82,8 +82,6 @@ for key, value in dictCorNo.items():
     temp = value
     listaCorNo.append(temp)
 
-
-
 dictLabelAresta = nx.get_edge_attributes(G,'label')
 dictCorAresta = nx.get_edge_attributes(G,'color')
 listaCorAresta = []
@@ -107,7 +105,7 @@ while True:
         nx.draw(G, pos, labels = dictLabelNo, node_color = listaCorNo,\
             edge_color = listaCorAresta, width = listaLarguraAresta, font_size = 6, font_color='white')
 
-        nx.draw_networkx_edge_labels(G, pos,edge_labels = dictLabelAresta, font_size = 6)
+        nx.draw_networkx_edge_labels(G, pos, edge_labels = dictLabelAresta, font_size = 6)
 
         fig1.set_facecolor("#4682B4")
 
@@ -123,9 +121,12 @@ while True:
         print('\n\n\nCusto total considerando as distâncias entre pontos')
         print(distancia)
         print("\n\n")
+            
+
         fig2 = plt.figure('Menor Caminho com Menor Custo (MCMC) - Dijkstra')
-        nx.draw(G, pos, nodelist=caminho, with_labels=True)
-        # fig2.set_facecolor("#00000F")
+        nx.draw(G, pos, nodelist=caminho, with_labels=True, node_color = 'red', edge_color = listaCorAresta, width = listaLarguraAresta, font_size = 6, font_color='white')
+        nx.draw_networkx_edge_labels(G, pos,edge_labels = dictLabelAresta, font_size = 6)
+        fig2.set_facecolor("#4682B4")
         plt.show()
     else:
         os.system("clear")
